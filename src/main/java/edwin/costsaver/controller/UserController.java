@@ -1,5 +1,6 @@
 package edwin.costsaver.controller;
 
+import edwin.costsaver.exception.InvalidInputException;
 import edwin.costsaver.user.User;
 import edwin.costsaver.user.UserService;
 import jakarta.annotation.Resource;
@@ -43,7 +44,7 @@ public class UserController {
     @PutMapping("{id}")
     // http://localhost:8080/api/users/1
     public ResponseEntity<User> updateUser(@PathVariable("id") Long userId,
-                                           @RequestBody User user){
+                                           @RequestBody User user) throws InvalidInputException {
         user.setId(userId);
         User updatedUser = userService.updateUser(user);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);

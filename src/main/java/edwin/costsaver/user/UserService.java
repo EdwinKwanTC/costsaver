@@ -1,5 +1,7 @@
 package edwin.costsaver.user;
 
+import edwin.costsaver.exception.InvalidInputException;
+
 import java.util.List;
 
 public interface UserService {
@@ -9,7 +11,7 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    User updateUser(User user);
+    User updateUser(User user) throws InvalidInputException;
 
     void deleteUser(Long userId);
 }

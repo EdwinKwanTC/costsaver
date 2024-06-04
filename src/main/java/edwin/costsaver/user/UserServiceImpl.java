@@ -1,5 +1,6 @@
 package edwin.costsaver.user;
 
+import edwin.costsaver.exception.InvalidInputException;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(Long userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
-        return optionalUser.get();
+
+        return optionalUser.orElse(null);
     }
 
     @Override
@@ -29,8 +31,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(User user) {
-        User existingUser = userRepository.findById(user.getId()).get();
+    public User updateUser(User user) throws InvalidInputException {
+        User existingUser = userRepository.findById(user.getId()).orElse(null);
+        if(existingUser == null) {
+            throw new InvalidInputException("invalid input");
+        }
         existingUser.setUsername(user.getUsername());
         return userRepository.save(existingUser);
     }
